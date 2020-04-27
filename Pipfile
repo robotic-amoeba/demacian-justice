@@ -11,6 +11,9 @@ django = "*"
 nose = "*"
 httpretty = "*"
 python-dotenv = "*"
+mysqlclient = "==1.4.6"
+mysql-client = "*"
+mysql-connector-python = "*"
 
 [requires]
 python_version = "3.8"
