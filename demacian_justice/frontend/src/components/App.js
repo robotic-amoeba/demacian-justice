@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 import Summoner from "./Summoner"
+import SearchBar from "./Searchbar"
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +20,20 @@ class App extends Component {
 
   render() {
     return (
-    <div><Summoner/></div>
+      <Router>
+        <div>
+          <Switch>
+            <Route
+              exact path="/profile"
+              component={Summoner}
+            />
+            <Route
+              path="/"
+              component={SearchBar}
+            />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

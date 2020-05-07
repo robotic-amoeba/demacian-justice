@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 RIOT_API_KEY = os.environ['RIOT_API_KEY']
+LOGIN_LEVEL = os.environ['LOGIN_LEVEL'] or 'INFO'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -128,3 +129,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# LOGGER
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': LOGIN_LEVEL,
+    },
+}
