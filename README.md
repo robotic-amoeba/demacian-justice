@@ -12,3 +12,6 @@ WIP: karma system for gaming communities.
 ### Bundle JS code - Webpack
 `npm run dev`
 
+## Set this two env variables
+RIOT_API_KEY=your_api_key_here
+LOGIN_LEVEL=INFO

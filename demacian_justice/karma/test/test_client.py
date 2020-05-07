@@ -24,7 +24,7 @@ class SummonerAPITestCase(TestCase):
 
         test_client = Client()
         response = test_client.get(
-            '/karma/get_summoner', {'summoner_name': 'feeder_sticks'})
+            '/karma/get_summoner', {'name': 'feeder_sticks', 'server': 'euw1'})
 
         self.assertEqual(json.loads(response.content), summoner_info)
         self.assertEqual(response.status_code, 200)
@@ -37,7 +37,7 @@ class SummonerAPITestCase(TestCase):
 
         test_client = Client()
         response = test_client.get(
-            '/karma/get_summoner', {'summoner_name': 'feeder_sticks'})
+            '/karma/get_summoner', {'name': 'feeder_sticks', 'server': 'euw1'})
 
         self.assertEqual(response.status_code, 500)
 
@@ -51,7 +51,7 @@ class SummonerAPITestCase(TestCase):
 
         test_client = Client()
         response = test_client.get(
-            '/karma/get_summoner', {'summoner_name': '123false'})
+            '/karma/get_summoner', {'name': '123false', 'server': 'euw1'})
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(json.loads(response.content), riot_answer)

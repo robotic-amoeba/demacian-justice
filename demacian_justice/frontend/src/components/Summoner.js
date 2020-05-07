@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import queryString from 'query-string'
 const axios = require('axios');
 
 class Summoner extends Component {
@@ -7,12 +8,13 @@ class Summoner extends Component {
         this.state = {
             data: {},
             loaded: false,
-            placeholder: "Loading"
+            queryParams: queryString.parse(this.props.location.search)
         };
     }
 
     componentDidMount() {
-        axios.get("/karma")
+        let { name, server } = this.state.queryParams;
+        axios.get(`/karma/get_summoner?name=${name}&server=${server}`)
             .then(response => {
                 if (response.status > 400) {
                     return this.setState(() => {

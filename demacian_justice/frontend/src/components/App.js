@@ -23,12 +23,14 @@ class App extends Component {
       <Router>
         <div>
           <Switch>
-            <Route exact path="/profile">
-              <Summoner />
-            </Route>
-            <Route exact path="/">
-              <SearchBar />
-            </Route>
+            <Route
+              exact path="/profile"
+              component={Summoner}
+            />
+            <Route
+              path="/"
+              component={SearchBar}
+            />
           </Switch>
         </div>
       </Router>

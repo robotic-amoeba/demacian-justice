@@ -28,8 +28,10 @@ class SearchBar extends Component {
     };
 
     render() {
-        return this.state.redirect ? <Redirect to="/profile" /> : (
-            <div>
+        let containerName = 'summonerSearchBar'
+        let path = `/profile?name=${this.state.inputValue}&server=${this.state.selectValue}`
+        return this.state.redirect ? <Redirect to={path} /> : (
+            <div className={containerName}>
                 <form onSubmit={this.handleSubmit}>
                     <input id="inputSummoner" onChange={this.handleInputChange} type="text" placeholder="Summoner Name" name="name" />
                     <select id="server" onChange={this.handleSelectChange} name="server" defaultValue='EUW1'>
@@ -46,7 +48,7 @@ class SearchBar extends Component {
                         <option value="KR">KR</option>
                         <option value="PBE">PBE</option>
                     </select>
-                    <button><img src="https://img.icons8.com/search" alt="search icon" onClick={this.handleSubmit} /></button>
+                    <button><img src="https://img.icons8.com/search" alt="search icon" height='23px' onClick={this.handleSubmit} /></button>
                 </form>
             </div>
         )
