@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import queryString from 'query-string'
+import queryString from 'query-string';
+import amumuLogo from '../amumu_icon.png';
 const axios = require('axios');
+
 
 class Summoner extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: {},
+            error: {},
             loaded: false,
             queryParams: queryString.parse(this.props.location.search)
         };
@@ -15,29 +18,36 @@ class Summoner extends Component {
     componentDidMount() {
         let { name, server } = this.state.queryParams;
         axios.get(`/karma/get_summoner?name=${name}&server=${server}`)
-            .then(response => {
-                if (response.status > 400) {
-                    return this.setState(() => {
-                        return { placeholder: "Something went wrong!" };
-                    });
-                }
-                return response.data;
-            })
-            .then(data => {
+            .then( response => {
                 this.setState(() => {
                     return {
-                        data,
+                        data: response.data,
                         loaded: true
                     };
                 });
             })
-            .catch(e => {
-                console.log(e)
+            .catch(error => {
+                if (error.response && error.response.status > 400) {
+                    return this.setState(() => {
+                        return { error: error.response };
+                    });
+                }
+                console.log(error)
             });
 
     }
 
     render() {
+        let errorContainer = 'errorContainer'
+        if (this.state.error){
+            return (
+                <div className={errorContainer}>
+                    <img src={amumuLogo} alt='error icon' height='400' width='400'></img>
+                    <p>{this.state.error.status + ": " + this.state.error.statusText}</p>
+                </div>
+                );
+        }
+
         let divName = 'summoner-table'
         let imageName = 'circular-icon'
         let attrsName = 'summoner-attributes-container'
