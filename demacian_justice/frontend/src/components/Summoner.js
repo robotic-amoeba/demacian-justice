@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import Error from './Error';
 import queryString from 'query-string';
-import amumuLogo from '../amumu_icon.png';
 const axios = require('axios');
 
 
@@ -18,7 +18,7 @@ class Summoner extends Component {
     componentDidMount() {
         let { name, server } = this.state.queryParams;
         axios.get(`/karma/get_summoner?name=${name}&server=${server}`)
-            .then( response => {
+            .then(response => {
                 this.setState(() => {
                     return {
                         data: response.data,
@@ -38,20 +38,15 @@ class Summoner extends Component {
     }
 
     render() {
-        let errorContainer = 'errorContainer'
-        if (this.state.error){
-            return (
-                <div className={errorContainer}>
-                    <img src={amumuLogo} alt='error icon' height='400' width='400'></img>
-                    <p>{this.state.error.status + ": " + this.state.error.statusText}</p>
-                </div>
-                );
+        if (this.state.error.status) {
+            debugger;
+            return <Error error={this.state.error} />
         }
 
-        let divName = 'summoner-table'
-        let imageName = 'circular-icon'
-        let attrsName = 'summoner-attributes-container'
-        let icon = `http://ddragon.leagueoflegends.com/cdn/10.8.1/img/profileicon/${this.state.data.profileIconId}.png`
+        let divName = 'summoner-table';
+        let imageName = 'circular-icon';
+        let attrsName = 'summoner-attributes-container';
+        let icon = `http://ddragon.leagueoflegends.com/cdn/10.8.1/img/profileicon/${this.state.data.profileIconId}.png`;
         return (
             <div className={divName}>
                 <img className={imageName} src={icon} alt='summoner icon' height='200' width='200'></img>

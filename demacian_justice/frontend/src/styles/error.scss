@@ -1,0 +1,15 @@
+.errorContainer{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(72, 145, 179);
+    padding: 100px;
+    align-items: center;
+}
+
+.errorContainer p {
+    margin: 15px;
+    font-family: arial-black;
+    font-weight: bold;
+    font-size: 50px;
+    color: rgb(205, 234, 249);
+}
