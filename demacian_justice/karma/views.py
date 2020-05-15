@@ -1,8 +1,7 @@
 from django.http import HttpResponse, JsonResponse
+from django.conf import settings
 from .client import Client
-import json, logging, pdb
-
-logger = logging.getLogger(__name__)
+import json, pdb
 
 def index(request):
     return HttpResponse("You're at the karma index.")
@@ -20,5 +19,5 @@ def get_summoner(request):
     summoner_name = request.GET.get('name')
     client = Client()
     response = client.get_summoner(summoner_name, server)
-    logger.info('Riot response:' + response.content.decode('utf-8'))
+    settings.LOGGER.info('Riot response[' + str(response.status_code) + ']:' + response.content.decode('utf-8'))
     return JsonResponse(response.json(), status=response.status_code)

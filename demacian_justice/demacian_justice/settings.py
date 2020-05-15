@@ -12,12 +12,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from dotenv import load_dotenv
+import logging
+
 
 # load .env variables into os envs
 load_dotenv()
 
-RIOT_API_KEY = os.environ['RIOT_API_KEY']
-LOGIN_LEVEL = os.environ['LOGIN_LEVEL'] or 'INFO'
+RIOT_API_KEY = os.environ.get('RIOT_API_KEY')
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,6 +133,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # LOGGER
+LOG_LEVEL = os.environ.get('LOG_LEVEL', 'ERROR')
+LOGGER = logging.getLogger(__name__)
 
 LOGGING = {
     'version': 1,
@@ -142,6 +146,6 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': LOGIN_LEVEL,
+        'level': LOG_LEVEL,
     },
 }

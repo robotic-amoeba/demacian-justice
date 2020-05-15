@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import queryString from 'query-string'
+import Error from './Error';
+import queryString from 'query-string';
 const axios = require('axios');
+
 
 class Summoner extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: {},
+            error: {},
             loaded: false,
             queryParams: queryString.parse(this.props.location.search)
         };
@@ -16,32 +19,34 @@ class Summoner extends Component {
         let { name, server } = this.state.queryParams;
         axios.get(`/karma/get_summoner?name=${name}&server=${server}`)
             .then(response => {
-                if (response.status > 400) {
-                    return this.setState(() => {
-                        return { placeholder: "Something went wrong!" };
-                    });
-                }
-                return response.data;
-            })
-            .then(data => {
                 this.setState(() => {
                     return {
-                        data,
+                        data: response.data,
                         loaded: true
                     };
                 });
             })
-            .catch(e => {
-                console.log(e)
+            .catch(error => {
+                if (error.response && error.response.status > 400) {
+                    return this.setState(() => {
+                        return { error: error.response };
+                    });
+                }
+                console.log(error)
             });
 
     }
 
     render() {
-        let divName = 'summoner-table'
-        let imageName = 'circular-icon'
-        let attrsName = 'summoner-attributes-container'
-        let icon = `http://ddragon.leagueoflegends.com/cdn/10.8.1/img/profileicon/${this.state.data.profileIconId}.png`
+        if (this.state.error.status) {
+            debugger;
+            return <Error error={this.state.error} />
+        }
+
+        let divName = 'summoner-table';
+        let imageName = 'circular-icon';
+        let attrsName = 'summoner-attributes-container';
+        let icon = `http://ddragon.leagueoflegends.com/cdn/10.8.1/img/profileicon/${this.state.data.profileIconId}.png`;
         return (
             <div className={divName}>
                 <img className={imageName} src={icon} alt='summoner icon' height='200' width='200'></img>
