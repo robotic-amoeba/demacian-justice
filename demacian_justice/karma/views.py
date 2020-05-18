@@ -1,7 +1,10 @@
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from django.forms.models import model_to_dict
 from .client import Client
-import json, pdb
+from .models import Summoner
+
+import json
 
 def index(request):
     return HttpResponse("You're at the karma index.")
@@ -21,3 +24,13 @@ def get_summoner(request):
     response = client.get_summoner(summoner_name, server)
     settings.LOGGER.info('Riot response[' + str(response.status_code) + ']:' + response.content.decode('utf-8'))
     return JsonResponse(response.json(), status=response.status_code)
+
+def vote(request):
+    vote = request.POST.get('vote')
+    summoner_id = request.POST.get('summoner_uuid')
+    summoner, _ = Summoner.objects.get_or_create(puuid = summoner_id)
+    updated_summoner = summoner.vote(vote)
+    dict_summoner = model_to_dict(updated_summoner)
+    serialized_summoner = json.dumps(dict_summoner, default=str)
+    return JsonResponse(serialized_summoner, safe=False, status=200)
+
