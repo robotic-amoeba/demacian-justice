@@ -9,6 +9,9 @@ WIP: karma system for gaming communities.
 ### Run tests locally
 `pipenv run ./demacian_justice/manage.py test`
 
+### Run one test
+`pipenv run ./demacian_justice/manage.py test karma.test.test_views.KarmaViewsTest.test_vote_existing_summoner`
+
 ### Bundle JS code - Webpack
 `npm run dev`
 
