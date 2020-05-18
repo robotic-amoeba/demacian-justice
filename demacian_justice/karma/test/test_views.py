@@ -5,12 +5,11 @@ import json
 
 class KarmaViewsTest(TestCase):
     def setUp(self):
-        Summoner.objects.create(name="feedersticks", puuid=1, upvotes=4)
+        Summoner.objects.create(puuid=1, upvotes=4)
 
     def test_vote_existing_summoner(self):
         """Votes are performed properly for an existing summoner"""
-        summoner_info = {'name': 'feedersticks',
-                         'puuid': '1',
+        summoner_info = {'puuid': '1',
                          'upvotes': 5,
                          'downvotes': 0}
 
@@ -26,8 +25,7 @@ class KarmaViewsTest(TestCase):
 
     def test_vote_creating_summoner(self):
         """Summoner is created if does not exist and the vote is added"""
-        summoner_info = {'name': '',
-                         'puuid': '24',
+        summoner_info = {'puuid': '24',
                          'upvotes': 0,
                          'downvotes': 1}
 

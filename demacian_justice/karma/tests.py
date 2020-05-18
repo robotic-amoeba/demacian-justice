@@ -9,7 +9,7 @@ def SummonerAPI_test_suite():
 
 def SummonerModel_test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(SummonerTestCase('test_summoners_are_saved'))
+    suite.addTest(SummonerTestCase('test_summoners_can_be_retrieved'))
     suite.addTest(SummonerTestCase('test_vote'))
     return suite
 
