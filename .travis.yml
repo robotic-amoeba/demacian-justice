@@ -13,6 +13,6 @@ install:
 
 before_script:
   - mysql -e 'create database demacian_justice;'
-  - python manage.py syncdb --noinput
+  - python ./demacian_justice/manage.py syncdb --noinput
 script:
-  - python manage.py test
+  - python ./demacian_justice/manage.py test
