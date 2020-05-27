@@ -12,4 +12,5 @@ install:
 before_script:
   - mysql -e 'create database demacian_justice;'
 script:
-  - python ./demacian_justice/manage.py test
+  - cd demacian_justice
+  - python manage.py test
