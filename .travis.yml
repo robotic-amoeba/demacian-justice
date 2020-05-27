@@ -1,0 +1,18 @@
+language: python
+python:
+  - "3.8"
+
+services: mysql
+env:
+
+  - DJANGO=3.0.5 DJANGO_SETTINGS_MODULE="demacian_justice.settings"
+install:
+  - pip install -q Django==$DJANGO --use-mirrors
+  - pip install pep8 --use-mirrors
+  - pip install mysql-python --use-mirrors
+
+before_script:
+  - mysql -e 'create database demacian_justice;'
+  - python manage.py syncdb --noinput
+script:
+  - python manage.py test
