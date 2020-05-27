@@ -7,10 +7,7 @@ env:
 
   - DJANGO=3.0.5 DJANGO_SETTINGS_MODULE="demacian_justice.settings"
 install:
-  - pip install -q Django==$DJANGO
-  - pip install pep8
-  - pip install mysqlclient
-  - pip install -U python-dotenv
+  - pip install -r requirements.txt
 
 before_script:
   - mysql -e 'create database demacian_justice;'
