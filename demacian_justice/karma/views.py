@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.forms.models import model_to_dict
+from django.views.decorators.csrf import csrf_exempt
 from .client import Client
 from .models import Summoner
 
@@ -25,11 +26,11 @@ def get_summoner(request):
     settings.LOGGER.info('Riot response[' + str(response.status_code) + ']:' + response.content.decode('utf-8'))
     return JsonResponse(response.json(), status=response.status_code)
 
+@csrf_exempt
 def vote(request):
-    vote = request.POST.get('vote')
-    summoner_id = request.POST.get('summoner_uuid')
-    summoner, _ = Summoner.objects.get_or_create(puuid = summoner_id)
-    updated_summoner = summoner.vote(vote)
+    body = json.loads(request.body)
+    summoner, _ = Summoner.objects.get_or_create(puuid = body['summoner_uuid'])
+    updated_summoner = summoner.vote(body['vote'])
     dict_summoner = model_to_dict(updated_summoner)
     serialized_summoner = json.dumps(dict_summoner, default=str)
     return JsonResponse(serialized_summoner, safe=False, status=200)

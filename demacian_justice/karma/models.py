@@ -16,7 +16,5 @@ class Summoner(models.Model):
             self.upvotes += 1
         elif vote == Summoner.DOWVOTE_FIELD:
             self.downvotes += 1
-        self.save
+        self.save()
         return self
-
-

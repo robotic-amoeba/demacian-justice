@@ -11,3 +11,6 @@ local_settings.py
 
 # Dependencies
 node_modules/
+
+# DS store
+*.DS_Store
