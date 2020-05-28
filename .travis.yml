@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.8"
+
+services: mysql
+env:
+
+  - DJANGO=3.0.5 DJANGO_SETTINGS_MODULE="demacian_justice.settings"
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - mysql -e 'create database demacian_justice;'
+script:
+  - cd demacian_justice
+  - python manage.py test

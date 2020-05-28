@@ -18,3 +18,7 @@ WIP: karma system for gaming communities.
 ## Set this two env variables
 RIOT_API_KEY=your_api_key_here
 LOGIN_LEVEL=INFO
+
+
+## Generate requirements file
+`pipenv run pip freeze > requirements.txt`
