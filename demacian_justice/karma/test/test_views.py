@@ -1,6 +1,5 @@
 from django.test import TestCase, Client
 from karma.models import Summoner
-import httpretty
 import json
 
 class KarmaViewsTest(TestCase):
@@ -15,7 +14,7 @@ class KarmaViewsTest(TestCase):
 
         test_client = Client()
         response = test_client.post(
-            '/karma/vote', {'summoner_uuid': 1, 'vote': 'upvote'})
+            '/karma/vote', {'summoner_uuid': 1, 'vote': 'upvote'}, content_type="application/json")
 
         response_dict = json.loads(json.loads(response.content))
         response_dict.pop('created_at')
@@ -31,7 +30,7 @@ class KarmaViewsTest(TestCase):
 
         test_client = Client()
         response = test_client.post(
-            '/karma/vote', {'summoner_uuid': 24, 'vote': 'downvote'})
+            '/karma/vote', {'summoner_uuid': '24', 'vote': 'downvote'}, content_type="application/json")
 
         response_dict = json.loads(json.loads(response.content))
         response_dict.pop('created_at')
