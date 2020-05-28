@@ -149,3 +149,5 @@ LOGGING = {
         'level': LOG_LEVEL,
     },
 }
+
+print("Log level: " + LOG_LEVEL)
