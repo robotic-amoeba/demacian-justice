@@ -55,6 +55,19 @@ class Summoner extends Component {
         });
     }
 
+    karmaColor(){
+        let karma = this.state.data.karma;
+        let karmaClass;
+        if (karma > 75) {
+            karmaClass = "good-karma";
+        } else if (karma < 25) {
+            karmaClass = "bad-karma";
+        } else {
+            karmaClass = "neutral-karma";
+        }
+        return karmaClass;
+    }
+
     render() {
         if (this.state.error.status) {
             return <Error error={this.state.error} />
@@ -64,21 +77,28 @@ class Summoner extends Component {
         let imageName = 'circular-icon';
         let attrsName = 'summoner-attributes-container';
         let icon = `http://ddragon.leagueoflegends.com/cdn/10.8.1/img/profileicon/${this.state.data.profileIconId}.png`;
+
+        let karmaClass = this.karmaColor();
+
+
         return (
             <div>
-                <div className={divName}>
+                <div className={divName} id='good-score'>
                     <img className={imageName} src={icon} alt='summoner icon' height='200' width='200'></img>
                     <div className={attrsName}>
                         <ul>
                             <li>Name: {this.state.data.name}</li>
                             <li>Level: {this.state.data.summonerLevel}</li>
+                            <li id="karma" className={karmaClass}>{this.state.data.karma}</li>
                         </ul>
                     </div>
                 </div>
-                <RatingBar puuid={this.state.data.puuid} handleRate={this.handleRate}/>
+                <RatingBar puuid={this.state.data.puuid} handleRate={this.handleRate}
+                           upvotes={this.state.data.upvotes}  downvotes={this.state.data.downvotes}/>
             </div>
         );
     }
 }
+
 
 export default Summoner;

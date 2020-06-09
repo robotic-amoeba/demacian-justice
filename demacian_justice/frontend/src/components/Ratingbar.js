@@ -6,16 +6,18 @@ import badKarma from '../../public/bad-karma.svg'
 
 const RatingBar = (props) => {
     const rateFn = (event)=>{props.handleRate(event, props.puuid)}
+    const upvotes = props.upvotes;
+    const downvotes = props.downvotes;
+
     return (
 
         <div className='rating-bar'>
-            <button data-vote='upvote' onClick={rateFn}>
-                <img data-vote='upvote' src={goodKarma} height='40px' alt='good karma icon' />
+            <div className='score' id='upvotes'>{upvotes}</div>
+            <button data-vote='upvote' onClick={rateFn} id='upbutton' >
             </button>
-            <div className='score'>54</div>
-            <button data-vote='downvote' onClick={rateFn}>
-                <img data-vote='downvote' src={badKarma} height='40px' alt='bad karma icon'/>
+            <button data-vote='downvote' onClick={rateFn} id='downbutton'>
             </button>
+            <div className='score' id='downvotes'>{downvotes}</div>
         </div>
     )
 }
