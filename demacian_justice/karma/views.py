@@ -2,6 +2,9 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
+
+from datetime import datetime, date
+
 from .riot_client import RiotClient
 from .models import Summoner
 
@@ -19,9 +22,8 @@ def vote(request):
     body = json.loads(request.body)
     summoner, _ = Summoner.objects.get_or_create(puuid = body['summoner_uuid'])
     updated_summoner = summoner.vote(body['vote'])
-    dict_summoner = model_to_dict(updated_summoner)
-    serialized_summoner = json.dumps(dict_summoner, default=str)
-    return JsonResponse(serialized_summoner, safe=False, status=200)
+    processed_summoner = __processed_summoner(updated_summoner)
+    return JsonResponse(processed_summoner, status=200)
 
 def __riot_request(request):
     server = request.GET.get('server')
@@ -46,10 +48,21 @@ def __summoner_info(puuid):
         return {'karma': 0, 'upvotes': 0, 'downvotes': 0 }
 
     dict_summoner = model_to_dict(summoner.first())
-    karma = __karma(dict_summoner['upvotes'], dict_summoner['downvotes'])
-    dict_summoner.update({ 'karma': karma })
+    __add_karma(dict_summoner)
     return dict_summoner
 
-def __karma(upvotes, downvotes):
-    return upvotes - downvotes
+def __processed_summoner(summoner_model):
+    dict_summoner = __date_remover(model_to_dict(summoner_model))
+    __add_karma(dict_summoner)
+    return dict_summoner
 
+def __add_karma(dict_summoner):
+    karma = dict_summoner['upvotes'] - dict_summoner['downvotes']
+    dict_summoner.update({ 'karma': karma })
+
+def __date_remover(dict):
+    purged_dict =  dict.copy()
+    for key in dict:
+        if isinstance(dict[key], (datetime, date)):
+            purged_dict.pop(key)
+    return purged_dict

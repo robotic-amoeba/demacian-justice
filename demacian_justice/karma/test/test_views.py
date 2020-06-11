@@ -98,15 +98,14 @@ class KarmaViewsTest(TestCase):
         """Votes are performed properly for an existing summoner"""
         summoner_info = {'puuid': '1',
                          'upvotes': 5,
-                         'downvotes': 0}
+                         'downvotes': 0,
+                         'karma': 5}
 
         test_client = Client()
         response = test_client.post(
             '/karma/vote', {'summoner_uuid': 1, 'vote': 'upvote'}, content_type="application/json")
 
-        response_dict = json.loads(json.loads(response.content))
-        response_dict.pop('created_at')
-        response_dict.pop('updated_at')
+        response_dict = json.loads(response.content)
         response_dict.pop('id')
         self.assertEqual(response_dict, summoner_info)
 
@@ -114,14 +113,13 @@ class KarmaViewsTest(TestCase):
         """Summoner is created if does not exist and the vote is added"""
         summoner_info = {'puuid': '24',
                          'upvotes': 0,
-                         'downvotes': 1}
+                         'downvotes': 1,
+                         'karma': -1}
 
         test_client = Client()
         response = test_client.post(
             '/karma/vote', {'summoner_uuid': '24', 'vote': 'downvote'}, content_type="application/json")
 
-        response_dict = json.loads(json.loads(response.content))
-        response_dict.pop('created_at')
-        response_dict.pop('updated_at')
+        response_dict = json.loads(response.content)
         response_dict.pop('id')
         self.assertEqual(response_dict, summoner_info)
