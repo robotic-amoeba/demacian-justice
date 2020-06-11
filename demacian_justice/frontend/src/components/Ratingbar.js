@@ -1,23 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import goodKarma from '../../public/good-karma.svg'
 import badKarma from '../../public/bad-karma.svg'
 
+class RatingBar extends Component {
+    constructor(props) {
+        super(props)
+        this.rateFn = this.rateFn.bind(this);
+    }
 
+    rateFn (event) {
+        this.props.handleRate(event, this.props.puuid)
+    }
 
-const RatingBar = (props) => {
-    const rateFn = (event)=>{props.handleRate(event, props.puuid)}
-    return (
+    render() {
+        const upvotes = this.props.upvotes;
+        const downvotes = this.props.downvotes;
 
-        <div className='rating-bar'>
-            <button data-vote='upvote' onClick={rateFn}>
-                <img data-vote='upvote' src={goodKarma} height='40px' alt='good karma icon' />
-            </button>
-            <div className='score'>54</div>
-            <button data-vote='downvote' onClick={rateFn}>
-                <img data-vote='downvote' src={badKarma} height='40px' alt='bad karma icon'/>
-            </button>
-        </div>
-    )
+        return (
+
+            <div className='rating-bar'>
+                <div className='score' id='upvotes'>{upvotes}</div>
+                <button data-vote='upvote' onClick={this.rateFn} id='upbutton' >
+                </button>
+                <button data-vote='downvote' onClick={this.rateFn} id='downbutton'>
+                </button>
+                <div className='score' id='downvotes'>{downvotes}</div>
+            </div>
+        )
+    }
 }
 
 export default RatingBar;

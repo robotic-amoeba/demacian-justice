@@ -7,7 +7,7 @@ import {
   Link
 } from "react-router-dom";
 
-import Summoner from "./Summoner"
+import SummonerPage from "./SummonerPage"
 import SearchBar from "./Searchbar"
 
 class App extends Component {
@@ -25,7 +25,7 @@ class App extends Component {
           <Switch>
             <Route
               exact path="/profile"
-              component={Summoner}
+              component={SummonerPage}
             />
             <Route
               path="/"

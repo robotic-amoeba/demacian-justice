@@ -9,11 +9,12 @@ class Summoner extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
+            summoner: {},
             error: {},
             loaded: false,
             queryParams: queryString.parse(this.props.location.search)
         };
+        this.handleRate = this.handleRate.bind(this);
     }
 
     componentDidMount() {
@@ -22,7 +23,7 @@ class Summoner extends Component {
             .then(response => {
                 this.setState(() => {
                     return {
-                        data: response.data,
+                        summoner: response.data,
                         loaded: true
                     };
                 });
@@ -39,20 +40,36 @@ class Summoner extends Component {
     }
 
     handleRate (event, puuid) {
-        let voteSentiment = event.target.dataset.vote
+        let voteSentiment = event.target.dataset.vote;
+        let state = this.state
         axios.post('/karma/vote', {
             vote: voteSentiment,
             summoner_uuid: puuid
         })
         .then((response)=>{
-            console.log(response)
+            this.setState(
+                {summoner: Object.assign(state.summoner, response.data)}
+            )
         })
         .catch(error => {
             if (error.response && error.response.status > 400) {
                     return { error: error.response };
             }
-            console.log(error)
+            console.log(error);
         });
+    }
+
+    karmaColor(){
+        let karma = this.state.summoner.karma;
+        let karmaClass;
+        if (karma > 75) {
+            karmaClass = "good-karma";
+        } else if (karma < 25) {
+            karmaClass = "bad-karma";
+        } else {
+            karmaClass = "neutral-karma";
+        }
+        return karmaClass;
     }
 
     render() {
@@ -63,22 +80,29 @@ class Summoner extends Component {
         let divName = 'summoner-table';
         let imageName = 'circular-icon';
         let attrsName = 'summoner-attributes-container';
-        let icon = `http://ddragon.leagueoflegends.com/cdn/10.8.1/img/profileicon/${this.state.data.profileIconId}.png`;
+        let icon = `http://ddragon.leagueoflegends.com/cdn/10.8.1/img/profileicon/${this.state.summoner.profileIconId}.png`;
+
+        let karmaClass = this.karmaColor();
+
+
         return (
             <div>
-                <div className={divName}>
+                <div className={divName} id='good-score'>
                     <img className={imageName} src={icon} alt='summoner icon' height='200' width='200'></img>
                     <div className={attrsName}>
                         <ul>
-                            <li>Name: {this.state.data.name}</li>
-                            <li>Level: {this.state.data.summonerLevel}</li>
+                            <li>Name: {this.state.summoner.name}</li>
+                            <li>Level: {this.state.summoner.summonerLevel}</li>
+                            <li id="karma" className={karmaClass}>{this.state.summoner.karma}</li>
                         </ul>
                     </div>
                 </div>
-                <RatingBar puuid={this.state.data.puuid} handleRate={this.handleRate}/>
+                <RatingBar puuid={this.state.summoner.puuid} handleRate={this.handleRate}
+                           upvotes={this.state.summoner.upvotes}  downvotes={this.state.summoner.downvotes}/>
             </div>
         );
     }
 }
+
 
 export default Summoner;
