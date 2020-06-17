@@ -7,6 +7,7 @@ from datetime import datetime, date
 
 from .riot_client import RiotClient
 from .models import Summoner
+from karma.utils.karma_compute import *
 
 import json
 
@@ -57,7 +58,8 @@ def __processed_summoner(summoner_model):
     return dict_summoner
 
 def __add_karma(dict_summoner):
-    karma = dict_summoner['upvotes'] - dict_summoner['downvotes']
+    wilson_value = wilson_score(dict_summoner['upvotes'], dict_summoner['downvotes'])
+    karma =  int(wilson_value * 100)
     dict_summoner.update({ 'karma': karma })
 
 def __date_remover(dict):
