@@ -21,7 +21,7 @@ class SummonerAPITestCase(TestCase):
                          'summonerLevel': 195,
                          'upvotes': 4,
                          'downvotes': 0,
-                         'karma': 4}
+                         'karma': 51}
 
         httpretty.register_uri(httpretty.GET, re.compile(SummonerAPITestCase.RIOT_URL),
                                body=json.dumps(summoner_info))
@@ -99,7 +99,7 @@ class KarmaViewsTest(TestCase):
         summoner_info = {'puuid': '1',
                          'upvotes': 5,
                          'downvotes': 0,
-                         'karma': 5}
+                         'karma': 56}
 
         test_client = Client()
         response = test_client.post(
@@ -114,7 +114,7 @@ class KarmaViewsTest(TestCase):
         summoner_info = {'puuid': '24',
                          'upvotes': 0,
                          'downvotes': 1,
-                         'karma': -1}
+                         'karma': 0}
 
         test_client = Client()
         response = test_client.post(
